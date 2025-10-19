@@ -72,7 +72,7 @@ function CreateCapsule() {
       </h2>
 
       <form onSubmit={handleSubmit}>
-\        <div className="mb-3">
+        <div className="mb-3">
           <label
             className="form-label fw-semibold"
             style={{ color: "#6f42c1" }}
