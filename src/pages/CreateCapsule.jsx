@@ -111,7 +111,7 @@ function CreateCapsule() {
             className="form-label fw-semibold"
             style={{ color: "#6f42c1" }}
           >
-            Add Photo / Video Link
+            Add Image URL
           </label>
           <input
             type="url"
