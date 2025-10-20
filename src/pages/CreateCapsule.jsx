@@ -5,7 +5,7 @@ import { addTimeCapsule, updateTimeCapsule } from "../service/allAPI";
 
 function CreateCapsule() {
   const navigate = useNavigate();
-  const location = useLocation(); // Used to receive edit data from Dashboard
+  const location = useLocation();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -14,7 +14,6 @@ function CreateCapsule() {
   const [isEdit, setIsEdit] = useState(false);
   const [editId, setEditId] = useState(null);
 
-  // Prefill data if editing
   useEffect(() => {
     const capsuleToEdit = location.state;
     if (capsuleToEdit) {
@@ -27,7 +26,6 @@ function CreateCapsule() {
     }
   }, [location.state]);
 
-  // Reset form
   const resetForm = () => {
     setTitle("");
     setDescription("");
@@ -43,12 +41,10 @@ function CreateCapsule() {
 
     try {
       if (isEdit) {
-        const result = await updateTimeCapsule(editId, capsuleData);
-        console.log("Update result:", result);
+        await updateTimeCapsule(editId, capsuleData);
         Swal.fire("Success", "Capsule updated successfully!", "success");
       } else {
-        const result = await addTimeCapsule(capsuleData);
-        console.log("Add result:", result);
+        await addTimeCapsule(capsuleData);
         Swal.fire("Success", "Capsule created successfully!", "success");
       }
       resetForm();
@@ -60,10 +56,7 @@ function CreateCapsule() {
   };
 
   return (
-    <div
-      className="container my-5 p-4 rounded-4 shadow"
-      style={{ backgroundColor: "#f9f5ff" }}
-    >
+    <div className="container my-5 p-4 rounded-4 shadow" style={{ backgroundColor: "#f8f4ff" }}>
       <h2
         className="text-center mb-4"
         style={{ color: "#6f42c1", fontWeight: "bold" }}
@@ -71,7 +64,8 @@ function CreateCapsule() {
         {isEdit ? "Edit Capsule" : "Create Your Digital Time Capsule"}
       </h2>
 
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="px-3">
+        {/* Title */}
         <div className="mb-3">
           <label
             className="form-label fw-semibold"
@@ -89,6 +83,7 @@ function CreateCapsule() {
           />
         </div>
 
+        {/* Description */}
         <div className="mb-3">
           <label
             className="form-label fw-semibold"
@@ -97,8 +92,8 @@ function CreateCapsule() {
             Description / Message
           </label>
           <textarea
+            rows="3"
             className="form-control border-2"
-            rows="4"
             style={{ borderColor: "#6f42c1" }}
             value={description}
             onChange={(e) => setDescription(e.target.value)}
@@ -106,6 +101,7 @@ function CreateCapsule() {
           />
         </div>
 
+        {/* Image URL */}
         <div className="mb-3">
           <label
             className="form-label fw-semibold"
@@ -122,7 +118,8 @@ function CreateCapsule() {
           />
         </div>
 
-        <div className="mb-3">
+        {/* Unlock Date */}
+        <div className="mb-4">
           <label
             className="form-label fw-semibold"
             style={{ color: "#6f42c1" }}
@@ -136,10 +133,12 @@ function CreateCapsule() {
             value={unlockDate}
             onChange={(e) => setUnlockDate(e.target.value)}
             required
+            min={new Date().toISOString().split("T")[0]} // 🚫 disables past dates
           />
         </div>
 
-        <div className="text-center d-flex flex-column flex-sm-row justify-content-center gap-2">
+        {/* Buttons */}
+        <div className="text-center mt-4 d-flex flex-column flex-sm-row justify-content-center gap-2">
           <button
             type="submit"
             className="btn px-4 py-2 fw-semibold"
@@ -152,7 +151,6 @@ function CreateCapsule() {
           >
             {isEdit ? "Update Capsule" : "Save Capsule"}
           </button>
-
           <button
             type="button"
             onClick={resetForm}
