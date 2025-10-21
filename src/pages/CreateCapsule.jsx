@@ -133,7 +133,8 @@ function CreateCapsule() {
             value={unlockDate}
             onChange={(e) => setUnlockDate(e.target.value)}
             required
-            min={new Date().toISOString().split("T")[0]} // 🚫 disables past dates
+            min={new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split("T")[0]}
+
           />
         </div>
 
